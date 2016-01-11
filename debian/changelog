@@ -1,3 +1,9 @@
+xorg (1:7.7+7ubuntu4-galliumos1) vivid; urgency=medium
+
+  * Set package version to match provenance
+
+ -- reynhout <reynhout@galliumos.org>  Sun, 10 Jan 2016 21:05:33 +0000
+
 xorg (1:7.7+7ubuntu5) vivid; urgency=medium
 
   * Remove synaptics as a dependency
