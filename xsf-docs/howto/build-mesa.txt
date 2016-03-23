@@ -27,15 +27,6 @@ in which case the appropriate options to be passed to `./configure`
 should be looked up in the `debian/rules` file of the Debian source
 package.
 
-****
-.Note
-Before reading further, be aware that `nouveau` is a bit special:
-
- * It’s considered experimental, and shipped in the
-   `libgl1-mesa-dri-experimental` package accordingly.
- * It may fail to build (both API and ABI are still changing).
-****
-
 
 <<<
 Gathering information
@@ -86,10 +77,6 @@ $ sudo apt-get install build-essential git
 $ sudo apt-get build-dep mesa
 ----
 
-If you’re on `squeeze` you may need to install a few more packages:
-newer `libdrm-dev` (it is available in `squeeze-backports`),
-as well as `libxmu-dev`, `libxi-dev`.
-
 Make sure you have some disc space available, since the git repository
 is over 120MB, and since the mesa directory is over 500MB after a
 build. Once you’re ready, grab the upstream mesa sources:
@@ -105,24 +92,19 @@ Here’s what the `./configure` call will look like:
 ----
 $ ./configure --prefix=/usr \
               --enable-driglx-direct \
-              --enable-gallium \
-              --enable-gles-overlay \
               --enable-gles1 \
               --enable-gles2 \
               --enable-glx-tls \
-              --with-driver=dri \
               --with-dri-driverdir=/usr/lib/dri \
               --with-egl-platforms='drm x11' \
-              --with-state-trackers=egl,glx,dri,vega \
               …
 ----
 
 Now, what are the parameters to replace “++…++” with? Basically, if
 you determined an Intel driver (`i915` or `i965`), you want to use the
-classic drivers and to disable the Gallium drivers. If you saw a
-Radeon driver (`r300` or `r600`), you should prefer the Gallium
-drivers. If you’re using `nouveau`, make sure you read the note in the
-_Foreword_. The following assumes you’re using `nouveau_dri.so`.
+classic drivers and to disable the Gallium drivers. Other drivers are
+only available on Gallium (`r300`, `r600`, `radeonsi` and more).
+Running `./configure --help` might be useful.
 
 
 Examples for common drivers:
@@ -137,15 +119,19 @@ Examples for common drivers:
 
  * For `nouveau`, you may want to try:
 
-        --with-dri-drivers=nouveau --enable-gallium-nouveau
+        --with-dri-drivers=nouveau --with-gallium-drivers=nouveau
 
- * For `r300` (the options are named `radeon`), you need:
+ * For `r300`, you need:
 
-        --with-dri-drivers=radeon --enable-gallium-radeon
+        --with-gallium-drivers=r300
 
  * For `r600`, you need:
 
-        --with-dri-drivers=r600 --enable-gallium-r600
+        --with-gallium-drivers=r600
+
+ * For `radeonsi`, you need:
+
+        --with-gallium-drivers=radeonsi
 
 Now, once you’ve run `./configure`, time for your favorite beverage:
 
@@ -200,9 +186,7 @@ _Did this work?_
 +
 _Did this work?_
 +
-*FIXME: We should be shipping EGL-aware applications through `mesa-utils`.*
-+
-        $ EGL_LOG_LEVEL=debug test_application 2>&1 >/dev/null | grep '\.so'
+        $ EGL_LOG_LEVEL=debug es2_info 2>&1 >/dev/null | grep '\.so'
         libEGL debug: added lib/egl/egl_gallium.so to module array
         libEGL debug: dlopen(lib/egl/egl_gallium.so)
         libEGL debug: DRI2: dlopen(lib/i915_dri.so)

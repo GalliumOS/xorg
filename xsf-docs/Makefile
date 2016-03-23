@@ -6,7 +6,7 @@ html_files = $(patsubst %.txt,%.html,$(txt_files))
 
 pdf_files = $(patsubst %.txt,%.pdf,$(txt_files))
 
-TXT_TO_HTML  = asciidoc -a linkcss
+TXT_TO_HTML  = TZ=UTC asciidoc -a linkcss
 HTML_TO_PDF  = wkhtmltopdf
 CSS_FILE     = xsf.css
 ADOC_CSS_FILE= asciidoc-xhtml11.css

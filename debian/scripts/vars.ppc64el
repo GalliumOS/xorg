@@ -1,7 +1,0 @@
-XSERVER_XORG_VIDEO_DEPENDS="\
-        xserver-xorg-video-fbdev, \
-"
-
-XSERVER_XORG_INPUT_DEPENDS="\
-        xserver-xorg-input-evdev, \
-"

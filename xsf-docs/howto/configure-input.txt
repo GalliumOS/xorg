@@ -117,7 +117,7 @@ Section "InputClass"
     Identifier "evdev pointer tweaked catchall"
     MatchIsPointer "on"
     Driver "evdev"
-    Option "Emulate3Buttons" True"
+    Option "Emulate3Buttons" "True"
     Option "SwapAxes" "True"
 EndSection
 ----
