@@ -1,14 +1,117 @@
-xorg (1:7.7+7ubuntu4-galliumos1) vivid; urgency=medium
+xorg (1:7.7+13ubuntu3-galliumos1) xenial; urgency=medium
 
-  * Set package version to match provenance
+  * Removed synaptics dependency
 
- -- reynhout <reynhout@galliumos.org>  Sun, 10 Jan 2016 21:05:33 +0000
+ -- Hugh Greenberg <hugh@galliumos.org>  Tue, 22 Mar 2016 16:53:04 +0200
 
-xorg (1:7.7+7ubuntu5) vivid; urgency=medium
+xorg (1:7.7+13ubuntu3) xenial; urgency=medium
 
-  * Remove synaptics as a dependency
+  * control: Drop freedreno and void from video/input-all so that they
+    don't block the transition while MIR's are being processed.
 
- -- Hugh Greenberg <hugh@galliumos.org>  Fri, 4 Sep 2015 18:45:44 +0100
+ -- Timo Aaltonen <tjaalton@debian.org>  Fri, 04 Mar 2016 16:53:04 +0200
+
+xorg (1:7.7+13ubuntu2) xenial; urgency=medium
+
+  * control: Demote -intel to -video-all Recommends, allowing uninstall
+    without removing the metapackage.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 18 Feb 2016 07:35:17 +0200
+
+xorg (1:7.7+13ubuntu1) xenial; urgency=medium
+
+  * Merge from Debian.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Fri, 05 Feb 2016 17:56:38 +0200
+
+xorg (1:7.7+13) unstable; urgency=medium
+
+  [ Andreas Boll ]
+  * Merge xsf-docs up to 13946cb commit:
+    - makefile: Set TZ=UTC before calling asciidoc (Closes: #795985).
+      Thanks, Eduard Sanou!
+  * rules: Remove unused variable ARCH.
+  * Delete obsolete debian/xsfbs.
+  * Bump Standards-Version to 3.9.6 (no changes needed).
+
+  [ Timo Aaltonen ]
+  * control: Add xserver-xorg-video-amdgpu to -video-all Depends.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 26 Jan 2016 18:24:15 +0200
+
+xorg (1:7.7+12ubuntu1) xenial; urgency=medium
+
+  * Merge from Debian, remaining changes:
+    - control: add xserver-xorg-video-geode for i386 Suggests
+    - control: demote 'xserver-xorg-video-all | xorg-driver-video' to
+      Recommends.
+    - control: promote xserver-xorg-input-wacom to Depends
+    - control: drop depend on libgl*-mesa* on armhf
+    - control: add xinput to xorg Depends
+    - control: demote xfonts-{100dpi,75dpi,scalable} * to xorg
+      Recommends/Suggests
+    - local/Xsession: truncate ERRFILE if it's too big
+    - local/Xsession.d/20x11-common_process-args: Add support for
+      session command containing args (LP: 512235)
+    - local/Xsession.d/60x11-common_xdg_path: added to set
+      xdg path depending on the selected session (compatible with
+      lightdm, gdm and kdm now) (LP: 804734)
+  * Drop obsolete diff:
+    - depends on x11-common because of doc dir symlinking, which is now
+      handled by pkgbinarymangler
+    - x11-common.{postinst,preinst,prerm}.in: removing old failsafe-x
+      files is obsolete since a few years
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 10 Nov 2015 18:17:25 +0200
+
+xorg (1:7.7+12) unstable; urgency=medium
+
+  * Team upload.
+  [ Andreas Boll ]
+  * Merge xsf-docs up to 4116d1e commit:
+    - build-mesa: Drop nouveau note
+    - build-mesa: Update ./configure options
+    - build-mesa: Drop obsolete FIXME and s/test_application/es2_info/
+    - build-mesa: Drop obsolete information for squeeze
+  * Drop vars files for unsupported architectures: arm, armeb, ia64,
+    m32r, s390 and sparc.
+  * Add upstream url.
+  * Use https for Vcs-* fields.
+  * Remove all non-KMS (except fbdev and vesa) drivers from
+    xserver-xorg-video-all.
+  * Inline all vars files into control.
+  * Remove redundant xserver-xorg-input-evdev from xserver-xorg (Already
+    in -input-all).
+  * Simplify and consolidate xserver-xorg-{input,video}-all:
+    - Use architecture wildcards.
+    - Add support for mips64el (Closes: #755482).
+    - Add xserver-xorg-video-intel on kfreebsd-any.
+    - Add xserver-xorg-video-freedreno on armel and armhf.
+    - Add xserver-xorg-video-nouveau on arm64.
+
+ -- Laurent Bigonville <bigon@debian.org>  Thu, 08 Oct 2015 10:24:27 +0200
+
+xorg (1:7.7+11) experimental; urgency=medium
+
+  * Fix arch-specific build broken in 1:7.7+10.
+
+ -- Julien Cristau <jcristau@debian.org>  Fri, 21 Aug 2015 16:39:20 +0200
+
+xorg (1:7.7+10) experimental; urgency=medium
+
+  * Stop shipping the /usr/bin/X setuid wrapper and associated
+    Xwrapper.config, those are now in xserver-xorg-legacy.
+  * Convert d/rules to dh.
+
+ -- Julien Cristau <jcristau@debian.org>  Fri, 21 Aug 2015 09:46:32 +0200
+
+xorg (1:7.7+9) unstable; urgency=medium
+
+  * Remove the siliconmotion driver from xserver-xorg-video-all.
+  * Remove Cyril and Drew from Uploaders.
+  * Bump debhelper compat level to 9.
+
+ -- Julien Cristau <jcristau@debian.org>  Mon, 11 May 2015 14:53:51 +0200
 
 xorg (1:7.7+7ubuntu4) vivid; urgency=medium
 
@@ -25,7 +128,7 @@ xorg (1:7.7+7ubuntu3) vivid; urgency=medium
 
  -- Maarten Lankhorst <maarten.lankhorst@ubuntu.com>  Mon, 09 Mar 2015 11:51:24 +0100
 
-xorg (1:7.7+8) UNRELEASED; urgency=medium
+xorg (1:7.7+8) unstable; urgency=medium
 
   [ Laurent Bigonville ]
   * debian/x11-common.init: Add Short-Description field (Closes: #510087)
@@ -39,7 +142,7 @@ xorg (1:7.7+8) UNRELEASED; urgency=medium
   * Remove creation of /etc/X11/X symlink, but keep existing.
   * Do not chdir to /etc/X11 if the symlink has an absolute path.
 
- -- Laurent Bigonville <bigon@debian.org>  Wed, 24 Sep 2014 12:57:17 +0200
+ -- Julien Cristau <jcristau@debian.org>  Sat, 02 May 2015 19:12:00 +0200
 
 xorg (1:7.7+7ubuntu2) utopic; urgency=medium
 
