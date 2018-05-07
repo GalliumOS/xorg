@@ -1,3 +1,187 @@
+xorg (1:7.7+19ubuntu7) bionic; urgency=medium
+
+  [ Simon Quigley ]
+  * 60x11-common_xdg_path: If $XDG_CONFIG_DIRS is nonempty, don't discard the
+    contents.
+
+  [ Didier Roche ]
+  * 60x11-common_xdg_path:
+    - protect against multiple additions of the same paths to
+      XDG_CONFIG_DIRS and XDG_DATA_DIRS, resulting to duplication on
+      consecutive logout/logins due to older session hanging in and env
+      being reused.
+      Some consequences is that electron application crashes (LP: #1764355)
+    - remove readdition of defaults if XDG_CONFIG_DIRS isn't empty to respect
+      user's selection (same logic than wayland session).
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 19 Apr 2018 17:47:42 +0300
+
+xorg (1:7.7+19ubuntu6) bionic; urgency=medium
+
+  * control: Add python3-apport to xserver-xorg depends due to the apport hook.
+    (LP: #1730035)
+  * control: Depend on x11proto-dev instead of the old packages.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 05 Apr 2018 15:47:54 +0300
+
+xorg (1:7.7+19ubuntu5) bionic; urgency=medium
+
+  * Cleanup upstart Xsession.d files, when upstart is removed, but not
+    purged, and thus breaking graphical login after upgrades. LP: #1749199
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Thu, 22 Feb 2018 16:43:18 +0000
+
+xorg (1:7.7+19ubuntu4) bionic; urgency=medium
+
+  * Recommend gnome-terminal before xterm to try to help germinate
+    pick the correct alternate dependency (LP: #1720482)
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Tue, 30 Jan 2018 20:43:33 -0500
+
+xorg (1:7.7+19ubuntu3) artful; urgency=medium
+
+  * Add alternate dependency on gnome-terminal (LP: #1720482)
+
+ -- Jeremy Bicha <jbicha@ubuntu.com>  Thu, 12 Oct 2017 10:25:30 -0400
+
+xorg (1:7.7+19ubuntu2) artful; urgency=medium
+
+  * control, source_xorg.py, xserver-xorg.install, rules: Import apport package
+    hook and links from xdiagnose 3.8.7.
+  * source_xorg.py: Drop obsolete stuff from the hook, attach Xorg.0.log
+    from home directory.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 31 Aug 2017 13:43:41 +0300
+
+xorg (1:7.7+19ubuntu1) artful; urgency=medium
+
+  * Merge from Debian.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Wed, 03 May 2017 19:06:02 +0300
+
+xorg (1:7.7+19) unstable; urgency=high
+
+  * Team upload.
+  * xserver-xorg now Recommends xserver-xorg-legacy, we'd have liked to avoid
+    installing the setuid Xorg wrapper by default in stretch, but this seems
+    to break too much still (closes: #861683).
+
+ -- Julien Cristau <jcristau@debian.org>  Wed, 03 May 2017 11:38:16 +0200
+
+xorg (1:7.7+18ubuntu1) artful; urgency=medium
+
+  * Merge from Debian.
+    - drop -synaptics from -input-all Recommends (LP: #1685542)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Mon, 24 Apr 2017 16:38:55 +0300
+
+xorg (1:7.7+18) unstable; urgency=medium
+
+  * Call db_purge without arguments in postinst to fix error uncovered by
+    adding "set -e" in 1:7.7+17 (closes: #845398).  Thanks, Samuel Thibault
+    and Tianon Gravi!
+
+ -- Julien Cristau <jcristau@debian.org>  Wed, 23 Nov 2016 08:50:50 +0100
+
+xorg (1:7.7+17) unstable; urgency=medium
+
+  [ Andreas Boll ]
+  * control: Drop -freedreno from -video-all, the default 2D-driver will
+    be -modesetting.
+
+  [ Emilio Pozuelo Monfort ]
+  * debian/x11-common.postinst: call `set -e'.
+  * Bump Standards-Version to 3.9.8. No changes.
+  * Bump debhelper compat to 10. Drop --parallel flag, enabled by default.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Wed, 23 Nov 2016 00:02:26 +0100
+
+xorg (1:7.7+16ubuntu3) zesty; urgency=medium
+
+  * control: Drop alt recommends on xorg-driver-video, because it makes
+    no sense for Recommends.
+  * control: Drop xserver-xorg-video-freedreno from video-all (arm).
+    (LP: #1679323)
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 04 Apr 2017 00:47:23 +0300
+
+xorg (1:7.7+16ubuntu2) zesty; urgency=medium
+
+  * control: Add -synaptics to input-all Recommends for linux, and move
+    wacom there.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Thu, 20 Oct 2016 20:28:30 +0300
+
+xorg (1:7.7+16ubuntu1) zesty; urgency=low
+
+  * Merge from Debian unstable.  Remaining changes:
+    - control: add xserver-xorg-video-geode for i386 Suggests
+    - control: demote 'xserver-xorg-video-all | xorg-driver-video' to
+      Recommends.
+    - control: promote xserver-xorg-input-wacom to Depends
+    - control: drop depend on libgl*-mesa* on armhf
+    - control: add xinput to xorg Depends
+    - control: demote xfonts-{100dpi,75dpi,scalable} * to xorg
+      Recommends/Suggests
+    - local/Xsession: truncate ERRFILE if it's too big
+    - local/Xsession.d/20x11-common_process-args: Add support for
+      session command containing args (LP: 512235)
+    - local/Xsession.d/60x11-common_xdg_path: added to set
+      xdg path depending on the selected session (compatible with
+      lightdm, gdm and kdm now) (LP: 804734)
+  * Dropped changes:
+    - control: Drop freedreno and void from video/input-all.
+  * Dropped changes, included in Debian:
+    - control: Drop vmmouse from -input-all depends, our kernel has had
+      the virtual driver for some time.
+    - control: Demote -intel to -video-all Recommends, allowing uninstall
+      without removing the metapackage.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 18 Oct 2016 22:04:21 -0700
+
+xorg (1:7.7+16) unstable; urgency=medium
+
+  [ Timo Aaltonen ]
+  * control: Drop -evdev and -synaptics from x-x-input-all Depends for
+    linux.
+
+  [ Julien Cristau ]
+  * Drop xserver-xorg-input-void from s390x.  The server can come up with no
+    input devices nowadays, -input-void isn't necessary.
+
+  [ Cyril Brulebois ]
+  * Drop xserver-xorg-input-vmmouse from xserver-xorg-input-all Depends,
+    since the kernel driver for the VMware mouse device is incompatible
+    with Xorg's vmmouse driver but works with the generic evdev and
+    libinput drivers. Closes: #831286
+
+ -- Cyril Brulebois <kibi@debian.org>  Thu, 14 Jul 2016 15:32:12 +0200
+
+xorg (1:7.7+15) unstable; urgency=medium
+
+  * Make x-x-input-all depend on x-x-input-libinput. Closes: #821760.
+
+ -- Emilio Pozuelo Monfort <pochu@debian.org>  Sat, 23 Apr 2016 12:09:18 +0200
+
+xorg (1:7.7+14) unstable; urgency=medium
+
+  [ Timo Aaltonen ]
+  * control: Demote -intel to -video-all Recommends, allowing to uninstall
+    it if necessary.
+
+  [ Andreas Boll ]
+  * Add xserver-xorg-video-freedreno to -video-all on arm64.
+
+ -- Timo Aaltonen <tjaalton@debian.org>  Tue, 08 Mar 2016 15:07:40 +0200
+
+xorg (1:7.7+13ubuntu4) yakkety; urgency=medium
+
+  [ Timo Aaltonen ]
+  * control: Drop vmmouse from -input-all depends, our kernel has had
+    the virtual driver for some time.
+
+ -- Steve Langasek <steve.langasek@ubuntu.com>  Tue, 27 Sep 2016 10:08:59 -0700
+
 xorg (1:7.7+13ubuntu3) xenial; urgency=medium
 
   * control: Drop freedreno and void from video/input-all so that they

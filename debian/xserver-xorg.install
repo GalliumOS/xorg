@@ -1,1 +1,2 @@
 debian/local/control usr/share/bug/xorg
+debian/source_xorg.py	usr/share/apport/package-hooks

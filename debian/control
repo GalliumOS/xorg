@@ -3,14 +3,13 @@ Section: x11
 Priority: optional
 Maintainer: Ubuntu X-SWAT <ubuntu-x@lists.ubuntu.com>
 XSBC-Original-Maintainer: Debian X Strike Force <debian-x@lists.debian.org>
-Standards-Version: 3.9.6
+Standards-Version: 3.9.8
 Build-Depends:
  dpkg (>= 1.16.1),
- debhelper (>= 9),
+ debhelper (>= 10),
  po-debconf,
 # xsf-docs:
  asciidoc,
- inkscape,
 Vcs-Git: https://anonscm.debian.org/git/pkg-xorg/debian/xorg.git
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-xorg/debian/xorg.git
 Homepage: http://www.x.org/
@@ -40,10 +39,14 @@ Depends:
  ${shlibs:Depends},
  ${misc:Depends},
  xkb-data (>= 1.4),
- x11-xkb-utils
+ x11-xkb-utils,
+ python3-apport,
 Recommends:
  libgl1-mesa-dri,
- xserver-xorg-video-all | xorg-driver-video,
+ xserver-xorg-legacy [linux-any],
+ xserver-xorg-video-all,
+Breaks: xdiagnose (<< 3.8.8)
+Replaces: xdiagnose (<< 3.8.8)
 Provides: xserver
 Description: X.Org X server
  This package depends on the full suite of the server and drivers for the
@@ -55,7 +58,6 @@ Depends:
  xserver-xorg-video-amdgpu [!hurd-any !kfreebsd-any !s390x],
  xserver-xorg-video-ati [!hurd-any !s390x],
  xserver-xorg-video-fbdev [!s390x],
-# xserver-xorg-video-freedreno [armel armhf],
  xserver-xorg-video-dummy [s390x],
  xserver-xorg-video-nouveau [amd64 arm64 armhf i386 powerpc x32],
  xserver-xorg-video-vesa [!s390x],
@@ -76,15 +78,13 @@ Description: X.Org X server -- output driver metapackage
 Package: xserver-xorg-input-all
 Architecture: any
 Depends:
- xserver-xorg-input-evdev [linux-any],
  xserver-xorg-input-kbd [!linux-any],
+ xserver-xorg-input-libinput [linux-any],
  xserver-xorg-input-mouse [!linux-any],
- xserver-xorg-input-synaptics [!s390x],
- xserver-xorg-input-vmmouse [amd64 i386 x32],
-# xserver-xorg-input-void [s390x],
- xserver-xorg-input-wacom [!hurd-any !kfreebsd-any !s390x],
+ xserver-xorg-input-synaptics [!linux-any],
  ${misc:Depends},
 Recommends:
+ xserver-xorg-input-wacom [!hurd-any !kfreebsd-any !s390x],
 Description: X.Org X server -- input driver metapackage
  This package depends on the full suite of input drivers for the X.Org X server
  (Xorg).  It does not provide any drivers itself, and may be removed if you wish
@@ -108,7 +108,7 @@ Depends:
  xfonts-utils,
  xkb-data,
  xorg-docs-core,
- xterm | x-terminal-emulator,
+ gnome-terminal | xterm | x-terminal-emulator,
  ${misc:Depends},
  xinput,
 Recommends:
@@ -165,29 +165,7 @@ Depends:
  libxvmc-dev,
  libxxf86dga-dev,
  libxxf86vm-dev,
- x11proto-bigreqs-dev,
- x11proto-composite-dev,
- x11proto-core-dev,
- x11proto-damage-dev,
- x11proto-dmx-dev,
- x11proto-fixes-dev,
- x11proto-fonts-dev,
- x11proto-gl-dev,
- x11proto-input-dev,
- x11proto-kb-dev,
- x11proto-randr-dev,
- x11proto-record-dev,
- x11proto-render-dev,
- x11proto-resource-dev,
- x11proto-scrnsaver-dev,
- x11proto-video-dev,
- x11proto-xcmisc-dev,
- x11proto-xext-dev,
- x11proto-xf86bigfont-dev,
- x11proto-xf86dga-dev,
- x11proto-xf86dri-dev,
- x11proto-xf86vidmode-dev,
- x11proto-xinerama-dev,
+ x11proto-dev,
  xserver-xorg-dev,
  xtrans-dev,
  ${misc:Depends},
